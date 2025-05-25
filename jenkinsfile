@@ -15,7 +15,7 @@ pipeline {
         }
         stage ("Git Checkout") {
             steps {
-                git 'https://github.com/KastroVKiran/Zomato-Project-Kastro.git'
+                git 'https://github.com/veerdevops-git/project-zomat.git'
             }
         }
         stage("Sonarqube Analysis"){
@@ -44,11 +44,11 @@ pipeline {
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
     }
 }
-        stage ("Trivy File Scan") {
-            steps {
-                sh "trivy fs . > trivy.txt"
-            }
-        }
+    //    stage ("Trivy File Scan") {
+      //      steps {
+        //        sh "trivy fs . > trivy.txt"
+          //  }
+        //}
         stage ("Build Docker Image") {
             steps {
                 sh "docker build -t zomato ."
@@ -58,26 +58,26 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker') {
-                        sh "docker tag zomato kastrov/zomato:latest "
-                        sh "docker push kastrov/zomato:latest "
+                        sh "docker tag zomato veerannadoc/zomato:latest "
+                        sh "docker push veerannadoc/zomato:latest "
                     }
                 }
             }
         }
-        stage('Docker Scout Image') {
-            steps {
-                script{
-                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
-                       sh 'docker-scout quickview kastrov/zomato:latest'
-                       sh 'docker-scout cves kastrov/zomato:latest'
-                       sh 'docker-scout recommendations kastrov/zomato:latest'
-                   }
-                }
-            }
-        }
+        //stage('Docker Scout Image') {
+          //  steps {
+            //    script{
+              //     withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
+                //       sh 'docker-scout quickview veerannadoc/zomato:latest'
+                  //     sh 'docker-scout cves veerannadoc/zomato:latest'
+                    //   sh 'docker-scout recommendations veerannadoc/zomato:latest'
+                   //}
+                //}
+            //}
+        //}
         stage ("Deploy to Container") {
             steps {
-                sh 'docker run -d --name zomato -p 3000:3000 kastrov/zomato:latest'
+                sh 'docker run -d --name zomato -p 3000:3000 veerannadoc/zomato:latest'
             }
         }
     }
@@ -100,9 +100,10 @@ pipeline {
                 </body>
                 </html>
             """,
-            to: 'kastrokiran@gmail.com',
+            to: 'veeranna.test@gmail.com',
             mimeType: 'text/html',
             attachmentsPattern: 'trivy.txt'
         }
     }
 }
+
