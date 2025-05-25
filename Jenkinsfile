@@ -1,5 +1,7 @@
 pipeline {
-    label "docker"
+    agent {
+        label "docker"
+    }
     tools {
         jdk 'jdk17'
         nodejs 'node23'
