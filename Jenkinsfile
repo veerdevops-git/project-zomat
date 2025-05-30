@@ -17,7 +17,14 @@ pipeline {
         }
         stage ("Git Checkout") {
             steps {
-                git 'https://github.com/veerdevops-git/project-zomat.git'
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],  // use 'main' or your repo branch
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/veerdevops-git/project-zomat.git'
+                        // , credentialsId: 'your-credentials-id' // if private repo
+                    ]]
+                ])
             }
         }
         stage("Sonarqube Analysis"){
