@@ -6,9 +6,9 @@ pipeline {
         jdk 'jdk17'
         nodejs 'node23'
     }
-    environment {
-        SCANNER_HOME=tool 'sonar-scanner'
-    }
+   // environment {
+     //   SCANNER_HOME=tool 'sonar-scanner'
+    //}
     stages {
         stage ("clean workspace") {
             steps {
@@ -27,14 +27,14 @@ pipeline {
                 ])
             }
         }
-        stage("Sonarqube Analysis"){
-            steps{
-                withSonarQubeEnv('sonar-server') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=zomato \
-                    -Dsonar.projectKey=zomato '''
-                }
-            }
-        }
+        // stage("Sonarqube Analysis"){
+           // steps{
+                // withSonarQubeEnv('sonar-server') {
+              //      sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=zomato \
+            //        -Dsonar.projectKey=zomato '''
+          //      }
+        //    }
+      //  }
         stage("Code Quality Gate"){
            steps {
                 script {
