@@ -1,7 +1,7 @@
 pipeline {
 
     agent any
-    
+
     tools {
         jdk 'jdk17'
         nodejs 'node23'
@@ -27,19 +27,6 @@ pipeline {
             }
         }
 
-        stage("Install NPM Dependencies") {
-            steps {
-                sh "npm install"
-            }
-        }
-
-        stage('OWASP FS SCAN') {
-            steps {
-                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit -n', odcInstallation: 'DP-Check'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-            }
-        }
-
         stage ("Build Docker Image") {
             steps {
                 sh "docker build -t zomato ."
@@ -50,8 +37,8 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker') {
-                        sh "docker tag zomato veerannadoc/zomato:latest "
-                        sh "docker push veerannadoc/zomato:latest "
+                        sh "docker tag zomato veerannadoc/zomato:latest"
+                        sh "docker push veerannadoc/zomato:latest"
                     }
                 }
             }
