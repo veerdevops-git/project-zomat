@@ -1,6 +1,11 @@
 pipeline {
 
-    agent any
+    agent {
+    docker {
+        image 'node:18' // has npm and node
+        args '-v /var/run/docker.sock:/var/run/docker.sock'
+    }
+}
 
     tools {
         jdk 'jdk17'
